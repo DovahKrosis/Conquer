@@ -1,0 +1,125 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f0f0;
+  margin: 0;
+  padding: 0;  
+}
+
+
+
+@media (max-width: 600px) {
+  .race-select, 
+  .panel-buttons, 
+  .resources, 
+  .troops-panel, 
+  .buildings, 
+  .buildings-built {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+}
+
+/* Melhorias nos botões */
+button {
+  min-height: 40px;
+  white-space: normal;
+  word-wrap: break-word;
+  padding: 8px 5px;
+  transition: all 0.2s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Melhorias nos painéis */
+.panel {
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.panel:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+header, footer {
+  background: #222;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+.container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.race-select,
+.panel-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.panel {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.resources,
+.troops,
+.buildings-built {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.resource,
+.troop,
+.building-built {
+  background: #f9f9f9;
+  padding: 10px;
+  flex: 1 1 120px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  text-align: center;
+}
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.race-select button,
+.panel-buttons button {
+  background: #333;
+  color: white;
+}
+.buildings button,
+.troops-panel button {
+  background: #007bff;
+  color: white;
+}
+.buildings-built button {
+  margin-top: 5px;
+  background: #dc3545;
+  color: white;
+}
+.manual-entry input,
+.manual-entry select {
+  margin: 5px;
+  padding: 5px;
+}
+.history {
+  max-height: 150px;
+  overflow-y: auto;
+  font-size: 14px;
+  background: #f4f4f4;
+  padding: 10px;
+  border-radius: 5px;
+}

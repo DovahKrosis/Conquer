@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gerenciador de Raças</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header><h2>Gerenciador de Raças & Recursos</h2></header>
+  <div class="container">
+    <h1>Escolha sua Raça</h1>
+    <div class="race-select">
+      <button onclick="selectRace('humanos')">🏹 Humanos</button>
+      <button onclick="selectRace('undeads')">☠️ Undeads</button>
+      <button onclick="selectRace('anoes')">⛰️ Anões</button>
+      <button onclick="selectRace('elfos')">✨ Elfos</button>
+    </div>
+
+    <div class="panel-buttons">
+      <button onclick="startColony()" id="btnStartColony" disabled>🏰 Iniciar Colônia</button>
+    </div>
+
+    <div class="panel">
+      <h2>Recursos</h2>
+      <div class="resources" id="resourcePanel"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Tropas</h2>
+      <div class="troops-panel" id="troopButtons"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Construções Disponíveis</h2>
+      <div class="buildings" id="buildingButtons"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Construções Feitas</h2>
+      <div class="buildings-built" id="constructedList"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Entradas Manuais</h2>
+      <div class="manual-entry">
+        <select id="manualResource">
+          <option value="ouro">Ouro</option>
+          <option value="comida">Comida</option>
+          <option value="madeira">Madeira</option>
+          <option value="ossos">Ossos</option>
+          <option value="almas">Almas</option>
+          <option value="pedra">Pedra</option>
+          <option value="metal">Metal</option>
+          <option value="mana">Mana</option>
+          <option value="construtor">Construtor</option>
+          <option value="necromantes">Necromantes</option>
+          <option value="anoes">Anões</option>
+          <option value="pixie">Pixie</option>
+        </select>
+        <input type="number" id="manualAmount" placeholder="Quantidade" />
+        <button onclick="manualChange(true)">Adicionar</button>
+        <button onclick="manualChange(false)">Remover</button>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Histórico</h2>
+      <div class="history" id="historyPanel"></div>
+    </div>
+  </div>
+
+  <footer>
+    <button onclick="nextPhase('dia')">🌞 Finalizar Dia</button>
+    <button onclick="nextPhase('noite')">🌙 Finalizar Noite</button>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
