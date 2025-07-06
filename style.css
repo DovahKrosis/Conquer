@@ -301,3 +301,58 @@ button {
   display: inline-block;
   width: 30px;
 }
+
+/* Temas de dia/noite */
+body.day-theme {
+  background-color: #f5f5dc; /* Sépia claro para dia */
+  color: #333;
+}
+
+body.night-theme {
+  background-color: #1a1a2e; /* Azul escuro para noite */
+  color: #535353;
+}
+
+.day-cycle {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.time-display {
+  display: flex;
+  gap: 15px;
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+
+.time-display span {
+  padding: 5px 10px;
+  background-color: rgba(0,0,0,0.1);
+  border-radius: 5px;
+}
+
+#btn-day, #btn-night {
+  padding: 10px 20px;
+  font-size: 1.1em;
+  transition: all 0.3s;
+}
+
+#btn-day {
+  background-color: #ffcc00;
+  color: #333;
+}
+
+#btn-night {
+  background-color: #003366;
+  color: white;
+}
+
+#btn-day:disabled, #btn-night:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

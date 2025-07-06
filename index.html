@@ -8,15 +8,22 @@
   </head>
   <body>
     <header>
-      <h2>Gerenciador de Reinos</h2>
-      <div class="tabs">
-        <button class="tab-button active" onclick="openTab('management')">
-          Gestão
-        </button>
-        <button class="tab-button" onclick="openTab('races')">Raças</button>
-        <button class="tab-button" onclick="openTab('exploration')">
-          Exploração
-        </button>
+      <div class="day-cycle">
+        <div class="time-display">
+          <span id="time-of-day">🌞 Dia</span>
+          <span id="day-counter">Dia: 1</span>
+          <span id="week-counter">Semana: 1</span>
+        </div>
+        <h2>Gerenciador de Reinos</h2>
+        <div class="tabs">
+          <button class="tab-button active" onclick="openTab('management')">
+            Gestão
+          </button>
+          <button class="tab-button" onclick="openTab('races')">Raças</button>
+          <button class="tab-button" onclick="openTab('exploration')">
+            Exploração
+          </button>
+        </div>
       </div>
     </header>
 
@@ -587,8 +594,11 @@
     </div>
 
     <footer>
-      <button onclick="nextPhase('dia')">🌞 Finalizar Dia</button>
-      <button onclick="nextPhase('noite')">🌙 Finalizar Noite</button>
+      <button id="btn-day" onclick="nextPhase('dia')">
+        🌞 Finalizar Dia</button>
+      <button id="btn-night" onclick="nextPhase('noite')" disabled>
+        🌙 Finalizar Noite
+      </button>
     </footer>
 
     <script src="script.js"></script>

@@ -330,7 +330,30 @@ function createUnit(unit, cost) {
 }
 
 function nextPhase(phase) {
-  // Resetar contadores de produção no novo dia
+
+  // Atualiza o ciclo
+  if (phase === 'dia') {
+    isDayTime = false;
+    document.getElementById('btn-day').disabled = true;
+    document.getElementById('btn-night').disabled = false;
+  } else {
+    isDayTime = true;
+    currentDay++;
+    if (currentDay % 7 === 0) {
+      currentWeek++;
+    }
+    document.getElementById('btn-day').disabled = false;
+    document.getElementById('btn-night').disabled = true;
+  }
+
+  // Atualiza a interface
+  updateTheme();
+  updateCounters();
+  
+  // Processa eventos do período
+  processPeriodEvents(phase);
+  
+  // Zera cooldowns no novo dia
   if (phase === 'dia') {
     for (const race in unitProduction) {
       for (const unit in unitProduction[race]) {
@@ -338,10 +361,18 @@ function nextPhase(phase) {
       }
     }
   }
-  
-  // Processar eventos do período
-  processPeriodEvents(phase);
+
+  logHistory(`Fim da ${phase === 'dia' ? 'noite' : 'dia'} - Dia ${currentDay}, Semana ${currentWeek}`);
 }
+
+// Inicialização do tema
+document.addEventListener('DOMContentLoaded', function() {
+  updateTheme();
+  updateCounters();
+  
+  // Desabilita o botão de noite inicialmente
+  document.getElementById('btn-night').disabled = true;
+});
 
 function processPeriodEvents(phase) {
   if (!currentRace) return;
@@ -511,4 +542,25 @@ function logHistory(msg) {
   const date = new Date().toLocaleTimeString();
   history.unshift(`[${date}] ${msg}`);
   document.getElementById('historyPanel').innerHTML = history.slice(0, 10).join('<br>');
+}
+
+let currentDay = 1;
+let currentWeek = 1;
+let isDayTime = true;
+
+// Função para atualizar o tema visual
+function updateTheme() {
+  document.body.classList.remove('day-theme', 'night-theme');
+  if (isDayTime) {
+    document.body.classList.add('day-theme');
+    document.getElementById('time-of-day').textContent = '🌞 Dia';
+  } else {
+    document.body.classList.add('night-theme');
+    document.getElementById('time-of-day').textContent = '🌙 Noite';
+  }
+}
+
+function updateCounters() {
+  document.getElementById('day-counter').textContent = `Dia: ${currentDay}`;
+  document.getElementById('week-counter').textContent = `Semana: ${currentWeek}`;
 }
