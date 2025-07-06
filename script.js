@@ -27,7 +27,8 @@ const buildingEffects = {
       effect: { dia: "1d4 madeira", noite: "1d4 ouro" } 
     },
     "Templo da Lua": { trigger: "noite", effect: "1d4 mana" },
-    "Fonte de Mana": { trigger: "noite", effect: "1d8 mana" }
+    "Fonte de Mana": { trigger: "noite", effect: "1d8 mana" },
+    "Gaia": { trigger: "periodo", effect: "1d4 mana" }
   }
 };
 
