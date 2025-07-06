@@ -1,80 +1,601 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gerenciador de Raças</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <header><h2>Gerenciador de Raças & Recursos</h2></header>
-  <div class="container">
-    <h1>Escolha sua Raça</h1>
-    <div class="race-select">
-      <button onclick="selectRace('humanos')">🏹 Humanos</button>
-      <button onclick="selectRace('undeads')">☠️ Undeads</button>
-      <button onclick="selectRace('anoes')">⛰️ Anões</button>
-      <button onclick="selectRace('elfos')">✨ Elfos</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gerenciador de Reinos</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h2>Gerenciador de Reinos</h2>
+      <div class="tabs">
+        <button class="tab-button active" onclick="openTab('management')">
+          Gestão
+        </button>
+        <button class="tab-button" onclick="openTab('races')">Raças</button>
+        <button class="tab-button" onclick="openTab('exploration')">
+          Exploração
+        </button>
+      </div>
+    </header>
+
+    <!-- Tab 1: Gestão do Reino -->
+    <div id="management" class="tab-content" style="display: block">
+      <div class="container">
+        <h1>Escolha sua Raça</h1>
+        <div class="race-select">
+          <button onclick="selectRace('humanos')">🏹 Humanos</button>
+          <button onclick="selectRace('undeads')">☠️ Undeads</button>
+          <button onclick="selectRace('anoes')">⛰️ Anões</button>
+          <button onclick="selectRace('elfos')">✨ Elfos</button>
+        </div>
+
+        <div class="panel-buttons">
+          <button onclick="startColony()" id="btnStartColony" disabled>
+            🏰 Iniciar Colônia
+          </button>
+        </div>
+
+        <div class="panel">
+          <h2>Recursos</h2>
+          <div class="resources" id="resourcePanel"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Tropas</h2>
+          <div class="troops-panel" id="troopButtons"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Construções Disponíveis</h2>
+          <div class="buildings" id="buildingButtons"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Construções Feitas</h2>
+          <div class="buildings-built" id="constructedList"></div>
+        </div>
+
+        <div class="panel">
+          <h2>Entradas Manuais</h2>
+          <div class="manual-entry">
+            <select id="manualResource">
+              <option value="ouro">Ouro</option>
+              <option value="comida">Comida</option>
+              <option value="madeira">Madeira</option>
+              <option value="ossos">Ossos</option>
+              <option value="almas">Almas</option>
+              <option value="pedra">Pedra</option>
+              <option value="metal">Metal</option>
+              <option value="mana">Mana</option>
+              <option value="construtor">Construtor</option>
+              <option value="necromantes">Necromantes</option>
+              <option value="anoes">Anões</option>
+              <option value="pixie">Pixie</option>
+            </select>
+            <input type="number" id="manualAmount" placeholder="Quantidade" />
+            <button onclick="manualChange(true)">Adicionar</button>
+            <button onclick="manualChange(false)">Remover</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Histórico</h2>
+          <div class="history" id="historyPanel"></div>
+        </div>
+      </div>
+
+      <footer>
+        <button onclick="nextPhase('dia')">🌞 Finalizar Dia</button>
+        <button onclick="nextPhase('noite')">🌙 Finalizar Noite</button>
+      </footer>
     </div>
 
-    <div class="panel-buttons">
-      <button onclick="startColony()" id="btnStartColony" disabled>🏰 Iniciar Colônia</button>
-    </div>
+    <!-- Tab 2: Fichas de Raças -->
+    <div id="races" class="tab-content">
+      <div class="container">
+        <h1>Fichas de Raças</h1>
+        <div class="wrapper">
+          <!-- Humanos -->
+          <div class="race-card">
+            <h2>🏹 Humanos</h2>
+            <div class="section-title">🏗️ Construções</div>
 
-    <div class="panel">
-      <h2>Recursos</h2>
-      <div class="resources" id="resourcePanel"></div>
-    </div>
+            <div class="building">
+              <div class="building-title">⛏️ Mina</div>
+              Gera 1d6 ouro p/ dia.<br /><small
+                >Custo: 4 construtor + 6 ouro + 6 madeira | Vida: 1 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🛖 Vila</div>
+              Gera 1d4 comida p/ dia.<br /><small
+                >Custo: 2 construtor + 4 ouro + 2 madeira | Vida: 1 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🚧 Casa dos Artesãos</div>
+              Gera 1d4 madeira p/ dia.<br /><small
+                >Custo: 4 construtor + 3 ouro + 2 madeira | Vida: 2 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">⚔️ Forte Militar</div>
+              Cavaleiro = 4 ouro + 4 comida. [6 = +1 tropa] {2 p/dia}<br /><small
+                >Custo: 6 construtor + 6 ouro + 4 madeira | Vida: 4 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🔮 Torre dos Magos</div>
+              Mago = 6 ouro + 4 comida. [4 = +1 tropa] {1 p/dia}<br /><small
+                >Custo: 6 construtor + 10 ouro + 6 madeira | Vida: 5 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🏰 Capital</div>
+              Construtor = 2 ouro + 2 comida ∞/dia<br />Milícia = 2 ouro + 1
+              comida [4 = +1 tropa] {2 p/dia}<br /><small
+                >Custo: 12 construtores + 12 ouro + 12 madeira | Vida: 6 |
+                Ataque: 1 p/dia</small
+              >
+            </div>
 
-    <div class="panel">
-      <h2>Tropas</h2>
-      <div class="troops-panel" id="troopButtons"></div>
-    </div>
+            <div class="section-title">🛡️ Tropas</div>
+            <div class="troop">
+              <div class="troop-title">⚔️ Cavaleiros</div>
+              6 vidas | ATK 1d6+2 | Loc.: 1 dia | Rec: 1 dia
+            </div>
+            <div class="troop">
+              <div class="troop-title">🛡️ Milícia</div>
+              4 vidas | ATK 1d4+1 | Loc.: 1 dia | Rec: 1 dia
+            </div>
+            <div class="troop">
+              <div class="troop-title">🔮 Magos</div>
+              4 vidas | ATK 1d6 (vantagem) | Loc.: 1 dia | Rec: 1 dia<br />🎯
+              Construções +1 (máx. 1 tropa)
+            </div>
 
-    <div class="panel">
-      <h2>Construções Disponíveis</h2>
-      <div class="buildings" id="buildingButtons"></div>
-    </div>
+            <div class="section-title">📜 Regras</div>
+            <div class="notes">
+              <ul>
+                <li>Benção: +1 / Maldição: -1 rolagens</li>
+                <li>Sagrados: +1 / Amaldiçoados: -2</li>
+                <li>Neutros: negociáveis</li>
+                <li>Pathfinders: 1 reroll a cada 5 dias</li>
+              </ul>
+            </div>
+          </div>
 
-    <div class="panel">
-      <h2>Construções Feitas</h2>
-      <div class="buildings-built" id="constructedList"></div>
-    </div>
+          <!-- Undeads -->
+          <div class="race-card">
+            <h2>☠️ Undeads</h2>
+            <div class="section-title">🏗️ Construções</div>
 
-    <div class="panel">
-      <h2>Entradas Manuais</h2>
-      <div class="manual-entry">
-        <select id="manualResource">
-          <option value="ouro">Ouro</option>
-          <option value="comida">Comida</option>
-          <option value="madeira">Madeira</option>
-          <option value="ossos">Ossos</option>
-          <option value="almas">Almas</option>
-          <option value="pedra">Pedra</option>
-          <option value="metal">Metal</option>
-          <option value="mana">Mana</option>
-          <option value="construtor">Construtor</option>
-          <option value="necromantes">Necromantes</option>
-          <option value="anoes">Anões</option>
-          <option value="pixie">Pixie</option>
-        </select>
-        <input type="number" id="manualAmount" placeholder="Quantidade" />
-        <button onclick="manualChange(true)">Adicionar</button>
-        <button onclick="manualChange(false)">Remover</button>
+            <div class="building">
+              <div class="building-title">🗿 Monolito Geológico</div>
+              1d4 ouro / período<br /><small
+                >Custo: 4 necromantes + 8 ouro + 6 ossos | Vida: 1 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🪦 Catacumba Assombrada</div>
+              1d4 ossos / noite<br />Morto-vivo = 1 ouro + 6 almas [5 = +1
+              tropa] {3 p/noite}<br /><small
+                >Custo: 4 necromantes + 5 ouro + 4 ossos | Vida: 2 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🗼 Torre Maligna</div>
+              1d4 almas / período<br />Cavaleiro da morte = 5 ouro + 10 almas [5
+              = +1 tropa] {2 p/noite}<br /><small
+                >Custo: 3 construtor + 5 ouro + 4 ossos | Vida: 2 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🏰 Capital Negra</div>
+              Necromante = 1 ouro + 3 almas ∞/dia<br /><small
+                >Custo: 12 necromantes + 12 almas + 12 ossos | Vida: 5 | Ataque:
+                1 p/dia</small
+              >
+            </div>
+
+            <div class="section-title">🛡️ Tropas</div>
+            <div class="troop">
+              <div class="troop-title">💀 Morto-vivo</div>
+              5 vidas | ATK 1d6+1 | Loc.: 1 noite | Rec: 3 almas + 1 noite
+            </div>
+            <div class="troop">
+              <div class="troop-title">👻 Cavaleiro da Morte</div>
+              6 vidas | ATK 1d6+2 | Loc.: 2 noites | Rec: 5 almas (2 noites)
+            </div>
+
+            <div class="section-title">📜 Regras</div>
+            <div class="notes">
+              <ul>
+                <li>Benção: -1 / Maldição: +1 rolagens</li>
+                <li>Apenas constroem em pântano</li>
+                <li>Sagrados: -1 / Amaldiçoados: +2</li>
+                <li>Neutros: hostis</li>
+                <li>Death Knights podem criar pântano (5 noites)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Anões -->
+          <div class="race-card">
+            <h2>⛰️ Anões</h2>
+            <div class="section-title">🏗️ Construções</div>
+
+            <div class="building">
+              <div class="building-title">⛏️ Mina</div>
+              1d8 ouro / período + 6 pedra / dia<br /><small
+                >Custo: 4 anões + 8 ouro + 2 metal | Vida: 3 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">⛏️ Casa dos Metalúrgicos</div>
+              1d4 metal / dia<br />Mestre da forja = 10 ouro + 6 metal [3 = +1
+              tropa] {2 p/dia}<br /><small
+                >Custo: 5 anões + 8 ouro + 5 pedra | Vida: 3 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🛖 Fazenda de Cogumelos</div>
+              1d4 comida / noite<br /><small
+                >Custo: 3 anões + 8 ouro + 4 pedra | Vida: 3 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">⚔️ Pináculo Militar</div>
+              Infantaria anã = 10 ouro + 2 metal [5 = +1 tropa] {2 p/dia}<br /><small
+                >Custo: 3 anões + 8 ouro + 4 pedra | Vida: 3 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🏰 Montanha Mãe</div>
+              Anão = 3 ouro + 3 comida ∞/dia<br /><small
+                >Somente 1 | Vida: 5 | Ataque: 1 p/dia</small
+              >
+            </div>
+
+            <div class="section-title">🛡️ Tropas</div>
+            <div class="troop">
+              <div class="troop-title">🛡️ Infantaria Anã</div>
+              5 vidas | ATK 1d6+1 | Loc.: 1 dia (apenas montanha) | Rec: 5 ouro
+              + 1 dia
+            </div>
+            <div class="troop">
+              <div class="troop-title">🔥 Mestre da Forja</div>
+              3 vidas | ATK 1d6+2 | Loc.: 2 dias | Rec: 15 ouro<br />🎯 Tropas
+              ao redor +2 ATK
+            </div>
+
+            <div class="section-title">📜 Regras</div>
+            <div class="notes">
+              <ul>
+                <li>Benção: +2 / Maldição: -1 rolagens</li>
+                <li>Somente constroem e se locomovem em montanha</li>
+                <li>Sagrados: +1 / Amaldiçoados: -2</li>
+                <li>Neutros: neutros</li>
+                <li>
+                  Mestre da Forja pode construir trilhos<br /><small
+                    >Custo: 25 ouro + 15 metal (pula 1 território
+                    conhecido)</small
+                  >
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Elfos -->
+          <div class="race-card">
+            <h2>✨ Elfos</h2>
+            <div class="section-title">🏢 Construções</div>
+
+            <div class="building">
+              <div class="building-title">🔹 Monolito da Natureza</div>
+              Gera 1d4 ouro p/ noite e 1d4 madeira p/ dia.<br /><small
+                >Custo: 4 pixie + 6 ouro + 2 madeira + 4 mana | Vida: 2 |
+                Ataque: 1 p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🌑 Templo da Lua</div>
+              Gera 1d4 mana p/ noite.<br /><small
+                >Custo: 4 pixie + 8 ouro + 5 mana | Vida: 2 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">✨ Sacerdote Mestre</div>
+              Cria 1 tropa a cada 3 unidades. {2 p/ dia}<br /><small
+                >Custo: 4 pixie + 8 ouro + 5 mana | Vida: 2 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🌳 Árvore da Terra</div>
+              Transforma o terreno em floresta. +2 em recursos.<br /><small
+                >Custo: Especial</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">💪 Infantaria élfica</div>
+              Cria 1 tropa a cada 5 unidades. {3 p/ noite}<br /><small
+                >Custo: 6 pixie + 6 ouro + 10 mana | Vida: 5 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">✨ Fonte de Mana</div>
+              Gera 1d8 mana p/ noite. Reduz custo de mana em 2.<br /><small
+                >Custo: 5 pixie + 8 ouro + 4 mana | Vida: 1 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🏰 Gaia 🏰</div>
+              Base central dos elfos.<br /><small
+                >Somente 1 | Vida: 5 | Ataque: 1 p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🌸 Pixie</div>
+              1 ouro + 3 mana. {Infinito p/ dia}<br /><small
+                >Custo: Especial | Vida: 5 | Ataque: 1 p/dia</small
+              >
+            </div>
+
+            <div class="section-title">🛡️ Tropas</div>
+            <div class="troop">
+              <div class="troop-title">💪 Infantaria élfica</div>
+              5 vidas | ATK 1d6+1 | Loc.: 1 noite | Rec: 4 mana + 1 noite<br />Conhecidos:
+              pula 1 território p/ noite
+            </div>
+            <div class="troop">
+              <div class="troop-title">✨ Sacerdote Mestre</div>
+              3 vidas | ATK 1d6+3 | Loc.: 1 noite | Rec: 15 mana + 1 noite<br />Aliados
+              ao redor +2 ATK e +1 Recovery
+            </div>
+
+            <div class="section-title">📌 Regras</div>
+            <div class="notes">
+              <ul>
+                <li>Benção: +3 / Maldição: -2 rolagens</li>
+                <li>Sagrados: +2 / Amaldiçoados: -2 rolagens</li>
+                <li>Neutros: mantêm-se neutros</li>
+                <li>Apenas constroem em terrenos com floresta</li>
+                <li>
+                  1 tropa de Sacerdotes pode teleportar tropas adjacentes para
+                  Gaia<br /><small>Custo: 35 ouro + 15 mana</small>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="panel">
-      <h2>Histórico</h2>
-      <div class="history" id="historyPanel"></div>
+    <!-- Tab 3: Exploração -->
+    <div id="exploration" class="tab-content">
+      <div class="container">
+        <h1>Tabelas de Eventos e Exploração</h1>
+
+        <div class="section">
+          <div class="section-title">🎲 Tabela de Eventos - D8</div>
+          <div class="table-entry">
+            <strong>1</strong> Inverno rigoroso - prod de comida -2 e tropas
+            demoram +1 dia para mover.
+          </div>
+          <div class="table-entry">
+            <strong>2</strong> Eclipse sombrio - Undeads ganham +1 alma/dia e
+            comida -1.
+          </div>
+          <div class="table-entry">
+            <strong>3</strong> Primavera prometida - comida +2 e madeira = 2.
+          </div>
+          <div class="table-entry">
+            <strong>4</strong> Tempos de paz - ninguém pode declarar guerra.
+          </div>
+          <div class="table-entry">
+            <strong>5</strong> Temporada das caravanas - Mercadores nas capitais
+            todos os dias.
+          </div>
+          <div class="table-entry">
+            <strong>6</strong> Festival da colheita - Ouro +1 e comida +1.
+          </div>
+          <div class="table-entry">
+            <strong>7</strong> Erupção Arcana - Tropas mágicas +1 ATK e terrenos
+            mágicos dobram efeito.
+          </div>
+          <div class="table-entry">
+            <strong>8</strong> Benção divina / Praga - 1-3 Praga (-1 recursos),
+            4-6 Benção (+1 recursos).
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">🗺️ Exploração de Território</div>
+          <div class="table-entry">
+            <strong>Etapa 1:</strong> 1d6 → 1-3 Possui / 4-6 Não possui
+            (Floresta, Montanha, Planície, Pântano - escolha 1 se nenhum)
+          </div>
+          <div class="table-entry">
+            <strong>Etapa 2:</strong> Slots de construção = 1d4 + 1
+          </div>
+          <div class="table-entry">
+            <strong>Etapa 3:</strong> Tipo de terreno (1d6):<br />
+            <ul>
+              <li>1 - Fértil</li>
+              <li>2 - Sagrado</li>
+              <li>3 - Amaldiçoado</li>
+              <li>4-5 - Fértil</li>
+              <li>6 - Estéril (sem comida, alma ou ouro)</li>
+            </ul>
+          </div>
+          <div class="table-entry">
+            <strong>Etapa 4:</strong> Habitações (1d8):<br />
+            <ul>
+              <li>1 - Vazio. Território livre</li>
+              <li>2 - Ruínas. Ver tabela de ruínas</li>
+              <li>3-5 - Vila (faça etapas de raça/alinhamento/tropas)</li>
+              <li>6 - Grande cidade (raça/alinhamento/tropas/negociação)</li>
+              <li>7 - Forte militar (etapa de tropas +1, sempre hostil)</li>
+              <li>8 - Assentamento (+1 de todos seus recursos)</li>
+            </ul>
+          </div>
+          <div class="table-entry">
+            <strong>Etapa 5:</strong> Raça da cidade (1d4):<br />
+            <ul>
+              <li>1 - Humanos</li>
+              <li>2 - Anões</li>
+              <li>3 - Necromantes</li>
+              <li>4 - Humanos</li>
+            </ul>
+          </div>
+          <div class="table-entry">
+            <strong>Etapa 6:</strong> Alinhamento (1d4):<br />
+            <ul>
+              <li>1 - Hostil</li>
+              <li>2-3 - Neutro</li>
+              <li>4 - Amigável</li>
+            </ul>
+          </div>
+          <div class="table-entry">
+            <strong>Etapa 7:</strong> Tropas (1d4):<br />
+            <ul>
+              <li>1 - 1 milícia</li>
+              <li>2 - 2 milícias + 1 cavaleiro</li>
+              <li>3 - 3 milícias + 1 cavaleiro</li>
+              <li>4 - 2 cavaleiros + 1 milícia</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">🏚️ Tabela de Ruínas (1d8)</div>
+          <div class="table-entry">
+            <strong>1</strong> Tesouro enterrado (+25 ouro)
+          </div>
+          <div class="table-entry"><strong>2</strong> Nada</div>
+          <div class="table-entry">
+            <strong>3</strong> Armadilha mortal (-1 tropa)
+          </div>
+          <div class="table-entry">
+            <strong>4</strong> Estoque antigo (+10 comida, +10 ossos)
+          </div>
+          <div class="table-entry">
+            <strong>5</strong> Madeireira preservada (+20 madeira)
+          </div>
+          <div class="table-entry">
+            <strong>6</strong> Mina com recursos (+1 construção de mina, -1
+            modificador nela)
+          </div>
+          <div class="table-entry"><strong>7</strong> Nada</div>
+          <div class="table-entry">
+            <strong>8</strong> Tesouro valioso (+35 ouro)
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">💰 Tabela de Mercado (1d20)</div>
+          <div class="table-entry">
+            <strong>1</strong> 20 comidas por 16 ouro
+          </div>
+          <div class="table-entry">
+            <strong>2</strong> 15 metais por 20 ouro
+          </div>
+          <div class="table-entry">
+            <strong>3</strong> 1 milícia humana por 50 ouro
+          </div>
+          <div class="table-entry">
+            <strong>4</strong> Mapa de território adjacente (1 uso) por 25 ouro
+          </div>
+          <div class="table-entry">
+            <strong>5</strong> Galé mercante (2 tropas + 2 suprimentos)
+          </div>
+          <div class="table-entry">
+            <strong>6</strong> Ferreiros da capital (+1 ATK para tropas) por 60
+            ouro
+          </div>
+          <div class="table-entry">
+            <strong>7</strong> Médicos da capital (tropas recuperam em 1 dia)
+            por 60 ouro
+          </div>
+          <div class="table-entry">
+            <strong>8</strong> Kit de construção (+1 slot construção) por 40
+            ouro
+          </div>
+          <div class="table-entry">
+            <strong>9</strong> Carroça de mantimentos (+10 comida e +10 madeira)
+            por 30 ouro
+          </div>
+          <div class="table-entry">
+            <strong>10</strong> Bênção de sacerdote local (+1 em próxima
+            rolagem) por 25 ouro
+          </div>
+          <div class="table-entry">
+            <strong>11</strong> Contrato com batedor (revele ruína próxima) por
+            20 ouro
+          </div>
+          <div class="table-entry">
+            <strong>12</strong> Caixote de armas (+2 ATK para próxima tropa) por
+            35 ouro
+          </div>
+          <div class="table-entry">
+            <strong>13</strong> Transporte veloz (locomoção de tropas reduzida
+            em 1 dia) por 50 ouro
+          </div>
+          <div class="table-entry">
+            <strong>14</strong> Relíquia mágica antiga (1 uso - ignora 1 ataque)
+            por 80 ouro
+          </div>
+          <div class="table-entry">
+            <strong>15</strong> Treinador de elite (tropa ganha vantagem em
+            rolagem de dano) por 65 ouro
+          </div>
+          <div class="table-entry">
+            <strong>16</strong> Livro de táticas (use uma vez para vencer
+            iniciativa) por 35 ouro
+          </div>
+          <div class="table-entry">
+            <strong>17</strong> Comboio comercial (+10 ouro/turno por 3 dias)
+            por 50 ouro
+          </div>
+          <div class="table-entry">
+            <strong>18</strong> Poção de reforço (1 tropa ganha +2 vidas) por 40
+            ouro
+          </div>
+          <div class="table-entry">
+            <strong>19</strong> Espiões mercenários (revele tropas inimigas em 1
+            território) por 30 ouro
+          </div>
+          <div class="table-entry">
+            <strong>20</strong> Mercador lendário - escolha qualquer item da
+            lista por 70 ouro
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
-  <footer>
-    <button onclick="nextPhase('dia')">🌞 Finalizar Dia</button>
-    <button onclick="nextPhase('noite')">🌙 Finalizar Noite</button>
-  </footer>
+    <footer>
+      <button onclick="nextPhase('dia')">🌞 Finalizar Dia</button>
+      <button onclick="nextPhase('noite')">🌙 Finalizar Noite</button>
+    </footer>
 
-  <script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>
