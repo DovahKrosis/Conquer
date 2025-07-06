@@ -17,7 +17,7 @@ const buildingEffects = {
     "Torre Maligna": { trigger: "periodo", effect: "1d4 almas" }
   },
   anoes: {
-    "Mina": { trigger: "periodo", effect: "1d8 ouro + 6 pedra" },
+    "Mina": { trigger: "periodo", effect: "1d8 ouro" },
     "Casa dos Metalúrgicos": { trigger: "dia", effect: "1d4 metal" },
     "Fazenda de Cogumelos": { trigger: "noite", effect: "1d4 comida" }
   },
