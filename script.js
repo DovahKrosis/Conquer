@@ -17,15 +17,13 @@ const buildingEffects = {
     "Torre Maligna": { trigger: "periodo", effect: "1d4 almas" }
   },
   anoes: {
-    "Mina": { trigger: "periodo", effect: "1d8 ouro" },
+    "Mina": { trigger: "periodo", effect: "1d6 ouro" },
     "Casa dos Metalúrgicos": { trigger: "dia", effect: "1d4 metal" },
-    "Fazenda de Cogumelos": { trigger: "noite", effect: "1d4 comida" }
+    "Fazenda de Cogumelos": { trigger: "noite", effect: "1d4 comida" },
+    "Montanha Mãe": { trigger: "periodo", effect: "1d6 pedra" }
   },
   elfos: {
-    "Monolito da Natureza": { 
-      trigger: "periodo", 
-      effect: { dia: "1d4 madeira", noite: "1d4 ouro" } 
-    },
+    "Monolito da Natureza": { trigger: "periodo", effect: { dia: "1d4 madeira", noite: "1d4 ouro" }},
     "Templo da Lua": { trigger: "noite", effect: "1d4 mana" },
     "Fonte de Mana": { trigger: "noite", effect: "1d8 mana" },
     "Gaia": { trigger: "periodo", effect: "1d4 mana" }
@@ -46,7 +44,7 @@ const unitCosts = {
   },
   anoes: {
     anoes: { ouro: 3, comida: 3 },
-    "infantaria anã": { ouro: 10, metal: 2 },
+    "infantaria anã": { ouro: 8, metal: 2 },
     "mestre da forja": { ouro: 10, metal: 6 }
   },
   elfos: {
@@ -76,8 +74,8 @@ const unitProduction = {
     anoes: { building: "Montanha Mãe", perDay: Infinity, current: 0 }
   },
   elfos: {
-    "infantaria élfica": { building: "Infantaria élfica", perDay: 3, current: 0 },
-    "sacerdote mestre": { building: "Sacerdote Mestre", perDay: 2, current: 0 },
+    "infantaria élfica": { building: "Monolito da Natureza", perDay: 3, current: 0 },
+    "sacerdote mestre": { building: "Templo da Lua", perDay: 2, current: 0 },
     pixie: { building: "Gaia", perDay: Infinity, current: 0 }
   }
 };
@@ -89,29 +87,32 @@ const buildingCosts = {
     "Casa dos Artesãos": { ouro: 3, madeira: 2, construtor: 4 },
     "Forte Militar": { ouro: 6, madeira: 4, construtor: 6 },
     "Torre dos Magos": { ouro: 10, madeira: 6, construtor: 6 },
-    "Capital": { ouro: 12, madeira: 12, construtor: 12 }
+    "Capital": { ouro: 12, madeira: 12, construtor: 12 },
+    "Ponte de Madeira": { ouro: 30, madeira: 40, construtor: 8 }
   },
   undeads: {
     "Monolito Geológico": { ouro: 8, ossos: 6, necromantes: 4 },
     "Catacumba Assombrada": { ouro: 5, ossos: 4, necromantes: 4 },
     "Torre Maligna": { ouro: 5, ossos: 4, necromantes: 3 },
-    "Capital Negra": { ouro: 12, ossos: 12, almas: 12, necromantes: 12 }
+    "Capital Negra": { ouro: 12, ossos: 12, almas: 12, necromantes: 12 },
+    "Portal das trevas": { ouro: 50, ossos: 20, almas: 50, necromantes: 6 },
   },
   anoes: {
     "Mina": { ouro: 8, metal: 2, anoes: 4 },
     "Casa dos Metalúrgicos": { ouro: 8, pedra: 5, anoes: 5 },
+    "Fundição": { ouro: 15, pedra: 10, anoes: 5 },
     "Fazenda de Cogumelos": { ouro: 8, pedra: 4, anoes: 3 },
     "Pináculo Militar": { ouro: 8, pedra: 4, anoes: 3 },
-    "Montanha Mãe": { ouro: 15, pedra: 15, metal: 15, anoes: 10 }
+    "Montanha Mãe": { ouro: 15, pedra: 15, metal: 15, anoes: 10 },
+    "Trilho de Ferro": { ouro: 50, pedra: 25, metal: 25, anoes: 6 }
   },
   elfos: {
     "Monolito da Natureza": { ouro: 6, madeira: 2, mana: 4, pixie: 4 },
     "Templo da Lua": { ouro: 8, mana: 5, pixie: 4 },
-    "Sacerdote Mestre": { ouro: 8, mana: 5, pixie: 4 },
     "Árvore da Terra": { ouro: 10, madeira: 10, mana: 10, pixie: 6 },
-    "Infantaria élfica": { ouro: 6, mana: 10, pixie: 6 },
     "Fonte de Mana": { ouro: 8, mana: 4, pixie: 5 },
-    "Gaia": { ouro: 20, madeira: 20, mana: 20, pixie: 10 }
+    "Gaia": { ouro: 20, madeira: 20, mana: 20, pixie: 10 },
+    "Navio Lunar": { ouro: 30, mana: 10, madeira: 45, pixie: 5 }
   }
 };
 

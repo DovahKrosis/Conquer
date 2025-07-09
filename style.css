@@ -2,7 +2,16 @@ body {
   font-family: 'Segoe UI', sans-serif;
   background: #f0f0f0;
   margin: 0;
-  padding: 0;  
+  padding: 0;
+  .race-select,
+.panel-buttons,
+.troops-panel,
+.buildings,
+.buildings-built {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* ajuste conforme necessário */
+} 
 }
 
 
