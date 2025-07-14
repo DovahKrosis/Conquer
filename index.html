@@ -13,6 +13,7 @@
           <span id="time-of-day">🌞 Dia</span>
           <span id="day-counter">Dia: 1</span>
           <span id="week-counter">Semana: 1</span>
+          <span id="honor-counter">Honra: 0</span>
         </div>
         <h2>Gerenciador de Reinos</h2>
         <div class="tabs">
@@ -394,126 +395,127 @@
     <!-- Tab 3: Exploração -->
     <div id="exploration" class="tab-content">
       <div class="container">
-        <h1>Tabelas de Eventos e Exploração</h1>
+        <!-- Botão para gerar cidade -->
+        <div class="exploration-controls">
+          <button id="generate-city">🎲 Explorar Novo Território</button>
+        </div>
 
+        <!-- Container para ficha de cidade gerada -->
+        <div id="generated-city-card" class="city-card hidden"></div>
+
+        <!-- Formulário para nome e salvar -->
+        <div id="city-form" class="hidden">
+          <input type="text" id="city-name" placeholder="Nome da cidade" />
+          <button id="save-city">Salvar Cidade</button>
+        </div>
+
+        <!-- Cidades salvas -->
+        <h2>Minhas Cidades</h2>
+        <div id="Personal-cities"></div>
+        <h2>Cidades Exploradas</h2>
+        <div id="saved-cities"></div>
+
+        <!-- Inserir manualmente -->
+        <h3>Adicionar Cidade Manualmente</h3>
+        <div class="manual-form">
+          <input
+            type="text"
+            id="manual-city-name"
+            placeholder="Nome da Cidade"
+          />
+
+          <label>🌳 Floresta</label>
+          <select id="manual-floresta">
+            <option>Possui</option>
+            <option>Não possui</option>
+          </select>
+
+          <label>🏔️ Montanha</label>
+          <select id="manual-montanha">
+            <option>Possui</option>
+            <option>Não possui</option>
+          </select>
+
+          <label>🏞️ Planícies</label>
+          <select id="manual-planicie">
+            <option>Possui</option>
+            <option>Não possui</option>
+          </select>
+
+          <label>🌾 Pântano</label>
+          <select id="manual-pantano">
+            <option>Possui</option>
+            <option>Não possui</option>
+          </select>
+
+          <label>Slots de construção</label>
+          <input type="number" id="manual-slots" min="1" max="10" />
+
+          <label>Tipo de terreno</label>
+          <select id="manual-terreno"></select>
+
+          <label>Habitação</label>
+          <select id="manual-habitacao"></select>
+
+          <div id="manual-extra-fields" class="hidden">
+            <label>Raça</label>
+            <select id="manual-raca"></select>
+
+            <label>Alinhamento</label>
+            <select id="manual-alinhamento"></select>
+
+            <label>Tropas</label>
+            <select id="manual-tropas"></select>
+          </div>
+
+          <label>Terreno é seu?</label>
+          <select id="manual-terreno-proprio">
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+          </select>
+
+          <button id="add-manual-city">Adicionar Cidade</button>
+        </div>
+
+        <!-- Tabela de Mercado de Vilas -->
         <div class="section">
-          <div class="section-title">🎲 Tabela de Eventos - D8</div>
+          <div class="section-title">🛒 Tabela de Mercado – Vilas (1d10)</div>
           <div class="table-entry">
-            <strong>1</strong> Inverno rigoroso - prod de comida -2 e tropas
-            demoram +1 dia para mover.
+            <strong>1</strong> 10 comidas e 5 madeiras — 18 ouro
           </div>
           <div class="table-entry">
-            <strong>2</strong> Eclipse sombrio - Undeads ganham +1 alma/dia e
-            comida -1.
+            <strong>2</strong> 1 milícia local (lealdade menor) — 40 ouro
           </div>
           <div class="table-entry">
-            <strong>3</strong> Primavera prometida - comida +2 e madeira = 2.
+            <strong>3</strong> Kit de reparo (+1 slot) — 35 ouro
           </div>
           <div class="table-entry">
-            <strong>4</strong> Tempos de paz - ninguém pode declarar guerra.
+            <strong>4</strong> Pequeno mapa local — 20 ouro
           </div>
           <div class="table-entry">
-            <strong>5</strong> Temporada das caravanas - Mercadores nas capitais
-            todos os dias.
+            <strong>5</strong> Bênção do ancião — 20 ouro
           </div>
           <div class="table-entry">
-            <strong>6</strong> Festival da colheita - Ouro +1 e comida +1.
+            <strong>6</strong> Carroça suprimentos — 25 ouro
           </div>
           <div class="table-entry">
-            <strong>7</strong> Erupção Arcana - Tropas mágicas +1 ATK e terrenos
-            mágicos dobram efeito.
+            <strong>7</strong> Poção simples — 30 ouro
           </div>
           <div class="table-entry">
-            <strong>8</strong> Benção divina / Praga - 1-3 Praga (-1 recursos),
-            4-6 Benção (+1 recursos).
+            <strong>8</strong> Armas de 2ª mão — 25 ouro
+          </div>
+          <div class="table-entry">
+            <strong>9</strong> Batedor aprendiz — 15 ouro
+          </div>
+          <div class="table-entry">
+            <strong>10</strong> Oferta comunitária — 10% desconto
           </div>
         </div>
 
         <div class="section">
-          <div class="section-title">🗺️ Exploração de Território</div>
-          <div class="table-entry">
-            <strong>Etapa 1:</strong> 1d6 → 1-3 Possui / 4-6 Não possui
-            (Floresta, Montanha, Planície, Pântano - escolha 1 se nenhum)
+          <div class="section-title">
+            💰 Tabela de Mercado - Grandes Cidades (1d20)
           </div>
-          <div class="table-entry">
-            <strong>Etapa 2:</strong> Slots de construção = 1d4 + 1
-          </div>
-          <div class="table-entry">
-            <strong>Etapa 3:</strong> Tipo de terreno (1d6):<br />
-            <ul>
-              <li>1 - Fértil</li>
-              <li>2 - Sagrado</li>
-              <li>3 - Amaldiçoado</li>
-              <li>4-5 - Fértil</li>
-              <li>6 - Estéril (sem comida, alma ou ouro)</li>
-            </ul>
-          </div>
-          <div class="table-entry">
-            <strong>Etapa 4:</strong> Habitações (1d8):<br />
-            <ul>
-              <li>1 - Vazio. Território livre</li>
-              <li>2 - Ruínas. Ver tabela de ruínas</li>
-              <li>3-5 - Vila (faça etapas de raça/alinhamento/tropas)</li>
-              <li>6 - Grande cidade (raça/alinhamento/tropas/negociação)</li>
-              <li>7 - Forte militar (etapa de tropas +1, sempre hostil)</li>
-              <li>8 - Assentamento (+1 de todos seus recursos)</li>
-            </ul>
-          </div>
-          <div class="table-entry">
-            <strong>Etapa 5:</strong> Raça da cidade (1d4):<br />
-            <ul>
-              <li>1 - Humanos</li>
-              <li>2 - Anões</li>
-              <li>3 - Necromantes</li>
-              <li>4 - Humanos</li>
-            </ul>
-          </div>
-          <div class="table-entry">
-            <strong>Etapa 6:</strong> Alinhamento (1d4):<br />
-            <ul>
-              <li>1 - Hostil</li>
-              <li>2-3 - Neutro</li>
-              <li>4 - Amigável</li>
-            </ul>
-          </div>
-          <div class="table-entry">
-            <strong>Etapa 7:</strong> Tropas (1d4):<br />
-            <ul>
-              <li>1 - 1 milícia</li>
-              <li>2 - 2 milícias + 1 cavaleiro</li>
-              <li>3 - 3 milícias + 1 cavaleiro</li>
-              <li>4 - 2 cavaleiros + 1 milícia</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">🏚️ Tabela de Ruínas (1d8)</div>
-          <div class="table-entry">
-            <strong>1</strong> Tesouro enterrado (+25 ouro)
-          </div>
-          <div class="table-entry"><strong>2</strong> Nada</div>
-          <div class="table-entry">
-            <strong>3</strong> Armadilha mortal (-1 tropa)
-          </div>
-          <div class="table-entry">
-            <strong>4</strong> Estoque antigo (+10 comida, +10 ossos)
-          </div>
-          <div class="table-entry">
-            <strong>5</strong> Madeireira preservada (+20 madeira)
-          </div>
-          <div class="table-entry">
-            <strong>6</strong> Mina com recursos (+1 construção de mina, -1
-            modificador nela)
-          </div>
-          <div class="table-entry"><strong>7</strong> Nada</div>
-          <div class="table-entry">
-            <strong>8</strong> Tesouro valioso (+35 ouro)
-          </div>
-        </div>
-
-        <div class="section">
-          <div class="section-title">💰 Tabela de Mercado (1d20)</div>
           <div class="table-entry">
             <strong>1</strong> 20 comidas por 16 ouro
           </div>
@@ -590,12 +592,87 @@
             lista por 70 ouro
           </div>
         </div>
+
+        <div class="section">
+          <div class="section-title">🏚️ Tabela de Pilhagem - Vila (1d8)</div>
+          <div class="table-entry">
+            <strong>1</strong> 15 comida, 10 madeira
+          </div>
+          <div class="table-entry"><strong>2</strong> 10 ossos, 10 comida</div>
+          <div class="table-entry"><strong>3</strong> 10 ouro, 5 pedra</div>
+          <div class="table-entry">
+            <strong>4</strong> 1 milícia capturada (pode ser usada ou vendida)
+          </div>
+          <div class="table-entry">
+            <strong>5</strong> Poção local (1 tropa +1 vida)
+          </div>
+          <div class="table-entry">
+            <strong>6</strong> 5 ouro, 5 metal, 5 madeira
+          </div>
+          <div class="table-entry">
+            <strong>7</strong> Kit de construção velho (+1 slot de construção)
+          </div>
+          <div class="table-entry"><strong>8</strong> 20 comida, 10 ouro</div>
+        </div>
+
+        <div class="section">
+          <div class="section-title">
+            🏙️ Tabela de Pilhagem - Cidade Grande (1d8)
+          </div>
+          <div class="table-entry"><strong>1</strong> 25 ouro, 15 metal</div>
+          <div class="table-entry">
+            <strong>2</strong> 2 milícias capturadas
+          </div>
+          <div class="table-entry">
+            <strong>3</strong> Tesouro mágico (+1 ataque de uma tropa por 1
+            batalha)
+          </div>
+          <div class="table-entry">
+            <strong>4</strong> 30 comida, 15 madeira
+          </div>
+          <div class="table-entry">
+            <strong>5</strong> Relíquia rara (ignora 1 ataque)
+          </div>
+          <div class="table-entry"><strong>6</strong> 20 ossos, 10 mana</div>
+          <div class="table-entry">
+            <strong>7</strong> Projeto de engenharia (+1 construção gratuita de
+            mina ou vila)
+          </div>
+          <div class="table-entry">
+            <strong>8</strong> Comboio saqueado: 40 ouro e 10 de todos os
+            recursos
+          </div>
+        </div>
+
+        <div id="modal-plunder" class="modal hidden">
+          <div class="modal-content">
+            <h3>⚔️ Arrasar e Saquear</h3>
+            <p>Escolha o resultado da ação:</p>
+            <button onclick="resolvePlunder(true)">Sucesso</button>
+            <button onclick="resolvePlunder(false)">Falha</button>
+          </div>
+        </div>
+
+        <div id="modal-attack" class="modal hidden">
+          <div class="modal-content">
+            <h3>🚨 A cidade/vila está sob ataque!</h3>
+            <p id="attack-event-text"></p>
+            <div id="attack-choice">
+              <button onclick="resolveHelp(true)">Ajudar</button>
+              <button onclick="resolveHelp(false)">Ignorar</button>
+            </div>
+            <div id="attack-outcome" class="hidden">
+              <p>Escolha o resultado:</p>
+              <button onclick="finishHelp(true)">Vitória</button>
+              <button onclick="finishHelp(false)">Derrota</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
     <footer>
-      <button id="btn-day" onclick="nextPhase('dia')">
-        🌞 Finalizar Dia</button>
+      <button id="btn-day" onclick="nextPhase('dia')">🌞 Finalizar Dia</button>
       <button id="btn-night" onclick="nextPhase('noite')" disabled>
         🌙 Finalizar Noite
       </button>

@@ -365,3 +365,50 @@ body.night-theme {
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.city-card {
+  border: 2px solid #333;
+  border-radius: 12px;
+  padding: 1em;
+  background: #fafafa;
+  margin: 1em 0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+.hidden {
+  display: none;
+}
+.exploration-controls {
+  margin-top: 1em;
+}
+
+.manual-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  margin-bottom: 1em;
+}
+.manual-form input,
+.manual-form select {
+  padding: 0.5em;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+.modal-content {
+  background: rgb(104, 0, 0);
+  padding: 1em 2em;
+  border-radius: 10px;
+  text-align: center;
+}
+.hidden {
+  display: none;
+}

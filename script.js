@@ -549,6 +549,7 @@ function logHistory(msg) {
 let currentDay = 1;
 let currentWeek = 1;
 let isDayTime = true;
+let honorPoints = 0;
 
 // Função para atualizar o tema visual
 function updateTheme() {
@@ -565,4 +566,274 @@ function updateTheme() {
 function updateCounters() {
   document.getElementById('day-counter').textContent = `Dia: ${currentDay}`;
   document.getElementById('week-counter').textContent = `Semana: ${currentWeek}`;
+  document.getElementById('honor-counter').textContent = `Honra: ${honorPoints}`;
 }
+
+function rollDice(sides) {
+  return Math.floor(Math.random() * sides) + 1;
+}
+
+const terrainTypes = ["Fértil (+2 comida +1 ouro)", "Sagrado (+1 recursos)", "Amaldiçoado (-1 recursos)", "Fértil (+2 comida +1 ouro)", "Fértil (+2 comida +1 ouro)", "Estéril (sem comida, alma ou ouro)"];
+const settlements = [
+  "Vazio. Território livre",
+  "Ruínas. Ver tabela de ruínas",
+  "Vila",
+  "Vila",
+  "Vila",
+  "Grande cidade",
+  "Forte militar",
+  "Assentamento (+1 de todos recursos)",
+];
+const races = ["Humanos", "Anões", "Necromantes", "Humanos"];
+const alignments = ["Hostil", "Neutro", "Neutro", "Amigável"];
+const villageTroops = ["1 milícia", "2 milícias", "3 milícias", "1 milícia"];
+const cityTroops = ["2 milícias", "2 milícias + 2 cavaleiros", "4 milícias + 1 cavaleiro", "2 milícias + 2 cavaleiros"];
+
+document.getElementById("generate-city").addEventListener("click", () => {  
+  const slots = rollDice(4) + 1;
+  const terreno = terrainTypes[rollDice(6) - 1];
+  const habIndex = rollDice(8) - 1;
+  const habitacao = settlements[habIndex];
+
+  let extras = "";
+
+  if (habitacao.includes("Vila") || habitacao.includes("cidade") || habitacao.includes("Forte")) {
+    const race = races[rollDice(4) - 1];
+    const align = alignments[rollDice(4) - 1];
+    const tropas = habitacao.includes("Vila")
+      ? villageTroops[rollDice(4) - 1]
+      : cityTroops[rollDice(4) - 1];
+
+    extras = `<li><strong>Raça:</strong> ${race}</li>
+              <li><strong>Alinhamento:</strong> ${align}</li>
+              <li><strong>Tropas:</strong> ${tropas}</li>`;
+  }
+
+  const cardHtml = `
+    <ul>
+      <li><strong>🌳 Florestas:</strong> ${toggleBiome()}</li>
+      <li><strong>🏔️ Montanhas:</strong> ${toggleBiome()}</li>
+      <li><strong>🏞️ Planícies:</strong> ${toggleBiome()}</li>
+      <li><strong>🌾 Pântanos:</strong> ${toggleBiome()}</li>
+      <li><strong>Slots de construção:</strong> ${slots}</li>
+      <li><strong>Tipo de terreno:</strong> ${terreno}</li>
+      <li><strong>Habitação:</strong> ${habitacao}</li>
+      ${extras}
+    </ul>
+  `;
+
+  const card = document.getElementById("generated-city-card");
+  card.innerHTML = cardHtml;
+  card.classList.remove("hidden");
+
+  document.getElementById("city-form").classList.remove("hidden");
+});
+
+function toggleBiome()
+{
+  const biomaPossui = rollDice(6) <= 3 ? "Possui" : "Não possui";
+  return biomaPossui;
+}
+
+document.getElementById("save-city").addEventListener("click", () => {
+  const name = document.getElementById("city-name").value.trim();
+  const card = document.getElementById("generated-city-card").innerHTML;
+
+  if (!name) {
+    alert("Dê um nome para a cidade!");
+    return;
+  }
+
+  const fullCard = `<div class="city-card">
+    <h3>${name}</h3>${card}
+    <button class="plunder-btn">⚔️ Arrasar e Saquear</button>
+  </div>`;
+
+  if(card.includes("Vila") || card.includes("cidade") || card.includes("Forte")) {
+    document.getElementById("saved-cities").innerHTML += fullCard;
+  }else{
+    document.getElementById("Personal-cities").innerHTML += fullCard;
+  }
+
+  // document.getElementById("saved-cities").innerHTML += fullCard;
+
+  document.getElementById("generated-city-card").classList.add("hidden");
+  document.getElementById("city-form").classList.add("hidden");
+  document.getElementById("city-name").value = "";
+});
+
+const terrainTypesFull = terrainTypes;
+const settlementsFull = settlements;
+
+function fillSelect(id, options) {
+  const select = document.getElementById(id);
+  select.innerHTML = options.map(opt => `<option>${opt}</option>`).join("");
+}
+
+// Preenche selects
+fillSelect("manual-terreno", terrainTypesFull);
+fillSelect("manual-habitacao", settlementsFull);
+fillSelect("manual-raca", races);
+fillSelect("manual-alinhamento", alignments);
+fillSelect("manual-tropas", villageTroops); // inicia como vila por padrão
+
+// Troca tropas conforme tipo de habitação
+document.getElementById("manual-habitacao").addEventListener("change", () => {
+  const hab = document.getElementById("manual-habitacao").value;
+  const extras = document.getElementById("manual-extra-fields");
+  if (hab.includes("Vila")) {
+    fillSelect("manual-tropas", villageTroops);
+    extras.classList.remove("hidden");
+  } else if (hab.includes("cidade") || hab.includes("Forte")) {
+    fillSelect("manual-tropas", cityTroops);
+    extras.classList.remove("hidden");
+  } else {
+    extras.classList.add("hidden");
+  }
+});
+
+// Adicionar manualmente
+document.getElementById("add-manual-city").addEventListener("click", () => {
+  const name = document.getElementById("manual-city-name").value.trim();
+  if (!name) return alert("Dê um nome para a cidade!");
+
+  const floresta = document.getElementById("manual-floresta").value;
+  const montanha = document.getElementById("manual-montanha").value;
+  const planicie = document.getElementById("manual-planicie").value;
+  const pantano = document.getElementById("manual-pantano").value;
+  const slots = document.getElementById("manual-slots").value;
+  const terreno = document.getElementById("manual-terreno").value;
+  const habitacao = document.getElementById("manual-habitacao").value;
+
+  let extras = "";
+  if (habitacao.includes("Vila") || habitacao.includes("cidade") || habitacao.includes("Forte")) {
+    const raca = document.getElementById("manual-raca").value;
+    const alinhamento = document.getElementById("manual-alinhamento").value;
+    const tropas = document.getElementById("manual-tropas").value;
+
+    extras = `
+      <li><strong>Raça:</strong> ${raca}</li>
+      <li><strong>Alinhamento:</strong> ${alinhamento}</li>
+      <li><strong>Tropas:</strong> ${tropas}</li>`;
+  }
+
+  const manualCard = `
+    <div class="city-card">
+      <h3>${name}</h3>
+      <ul>
+        <li><strong>🌳 Florestas:</strong> ${floresta}</li>
+        <li><strong>🏔️ Montanhas:</strong> ${montanha}</li>
+        <li><strong>🏞️ Planícies:</strong> ${planicie}</li>
+        <li><strong>🌾 Pântanos:</strong> ${pantano}</li>
+        <li><strong>Slots de construção:</strong> ${slots}</li>
+        <li><strong>Tipo de terreno:</strong> ${terreno}</li>
+        <li><strong>Habitação:</strong> ${habitacao}</li>
+        ${extras}       
+      </ul>
+      <button class="plunder-btn">⚔️ Arrasar e Saquear</button>
+    </div>
+  `;
+
+  if(habitacao.includes("Vila") || habitacao.includes("cidade") || habitacao.includes("Forte")) {
+    document.getElementById("saved-cities").innerHTML += manualCard;
+  }else{
+    document.getElementById("Personal-cities").innerHTML += manualCard;
+  }
+
+  // limpa
+  document.querySelector(".manual-form").reset();
+  document.getElementById("manual-extra-fields").classList.add("hidden");
+});
+
+// Abrir e fechar modal
+function showModal(id, text) {
+  document.getElementById(id).classList.remove("hidden");
+  const target = id === "modal-plunder" ? "plunder-result-text" : "attack-event-text";
+  document.getElementById(target).innerText = text;
+}
+
+function closeModal() {
+  document.querySelectorAll(".modal").forEach(mod => mod.classList.add("hidden"));
+}
+let isPlunderingCity = false;
+
+document.addEventListener("click", (e) => {
+  if (e.target.classList.contains("plunder-btn")) {
+    isPlunderingCity = e.target.parentElement.innerHTML.includes("Grande cidade");
+    showModal("modal-plunder", "");
+  }
+});
+
+function resolvePlunder(success) {
+  closeModal();
+  honorPoints -= 3;
+  updateCounters();
+  if (!success) {
+    alert(`❌ Falha no saque. Pontos de Honra: ${honorPoints}`);
+    return;
+  }
+  const lootText = isPlunderingCity
+    ? `Espólio de cidade grande (D8)`
+    : `Espólio de vila (D8)`;
+
+  alert(`✅ Sucesso no saque!\n${lootText}\nPontos de Honra: ${honorPoints}`);
+}
+
+if (habitacao.includes("Vila") || habitacao.includes("cidade")) {
+  const isCity = habitacao.includes("cidade");
+  const dangerRoll = isCity ? rollDice(6) : rollDice(4);
+
+  let eventText = "";
+  if (!isCity) {
+    if (dangerRoll === 1) eventText = "1 bandido (4 vidas, 1d4 ATK)";
+    else if (dangerRoll === 2) eventText = "3 bandidos (4 vidas, 1d4 ATK)";
+    else if (dangerRoll === 3) eventText = "3 bandidos +1 ATK (4 vidas)";
+    else eventText = "2 revolucionários (5 vidas, 1d6 ATK)";
+  } else {
+    const threats = [
+      "3 revolucionários",
+      "4 revolucionários",
+      "4 orcs (6 vidas, 1d6 ATK)",
+      "1 Troll das cavernas (7 vidas, 1d6+2 ATK)",
+      "1 Dragão vermelho (10 vidas, 1d8 ATK)",
+      "1 Vorme destruidor (10 vidas, 1d10 ATK)",
+    ];
+    eventText = threats[dangerRoll - 1];
+  }
+
+  showModal("modal-attack", `O local está sob ataque por: ${eventText}`);
+}
+
+
+let helpPending = false;
+
+function resolveHelp(willHelp) {
+  if (willHelp) {
+    helpPending = true;
+    document.getElementById("attack-choice").classList.add("hidden");
+    document.getElementById("attack-outcome").classList.remove("hidden");
+  } else {
+    honorPoints -= 2;
+    updateCounters();
+    closeModal();
+    alert(`Você ignorou o ataque. Vila destruída.\nHonra -2\nPontos de Honra: ${honorPoints}`);
+  }
+}
+
+function finishHelp(success) {
+  closeModal();
+  document.getElementById("attack-choice").classList.remove("hidden");
+  document.getElementById("attack-outcome").classList.add("hidden");
+
+  if (success) {
+    honorPoints += 3;
+    alert(`✅ Você salvou o local! Honra +3\nPontos de Honra: ${honorPoints}`);
+  } else {
+    honorPoints -= 1;
+    alert(`❌ Você falhou na tentativa de ajudar. Honra -1\nPontos de Honra: ${honorPoints}`);
+  }
+  updateCounters();
+  helpPending = false;
+}
+
+
