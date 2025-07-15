@@ -17,13 +17,11 @@
         </div>
         <h2>Gerenciador de Reinos</h2>
         <div class="tabs">
-          <button class="tab-button active" onclick="openTab('management')">
-            Gestão
-          </button>
+          <button class="tab-button active" onclick="openTab('management')">Gestão</button>
           <button class="tab-button" onclick="openTab('races')">Raças</button>
-          <button class="tab-button" onclick="openTab('exploration')">
-            Exploração
-          </button>
+          <button class="tab-button" onclick="openTab('exploration')">Exploração</button>
+          <button class="tab-button" onclick="openTab('pilhagem')">Pilhagem</button>
+          <button class="tab-button" onclick="openTab('markets')">Mercados</button>
         </div>
       </div>
     </header>
@@ -475,11 +473,40 @@
           </select>
 
           <button id="add-manual-city">Adicionar Cidade</button>
+        </div>        
+
+        <div id="modal-plunder" class="modal hidden">
+          <div class="modal-content">
+            <h3>⚔️ Arrasar e Saquear</h3>
+            <p>Escolha o resultado da ação:</p>
+            <button onclick="resolvePlunder(true)">Sucesso</button>
+            <button onclick="resolvePlunder(false)">Falha</button>
+          </div>
         </div>
 
-        <!-- Tabela de Mercado de Vilas -->
+        <div id="modal-attack" class="modal hidden">
+          <div class="modal-content">
+            <h3>🚨 A cidade/vila está sob ataque!</h3>
+            <p id="attack-event-text"></p>
+            <div id="attack-choice">
+              <button onclick="resolveHelp(true)">Ajudar</button>
+              <button onclick="resolveHelp(false)">Ignorar</button>
+            </div>
+            <div id="attack-outcome" class="hidden">
+              <p>Escolha o resultado:</p>
+              <button onclick="finishHelp(true)">Vitória</button>
+              <button onclick="finishHelp(false)">Derrota</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab 4: Mercados -->
+    <div id="markets" class="tab-content">
+      <!-- Tabela de Mercado de Vilas -->
         <div class="section">
-          <div class="section-title">🛒 Tabela de Mercado – Vilas (1d10)</div>
+          <div class="section-title">🛒 Tabela de Mercado - Vila</div>
           <div class="table-entry">
             <strong>1</strong> 10 comidas e 5 madeiras — 18 ouro
           </div>
@@ -514,7 +541,7 @@
 
         <div class="section">
           <div class="section-title">
-            💰 Tabela de Mercado - Grandes Cidades (1d20)
+            💰 Tabela de Mercado - Grandes Cidades
           </div>
           <div class="table-entry">
             <strong>1</strong> 20 comidas por 16 ouro
@@ -592,8 +619,11 @@
             lista por 70 ouro
           </div>
         </div>
+    </div>
 
-        <div class="section">
+    <!-- Tab 5: Pilhagem -->
+    <div class="tab-content" id="pilhagem">
+      <div class="section">
           <div class="section-title">🏚️ Tabela de Pilhagem - Vila (1d8)</div>
           <div class="table-entry">
             <strong>1</strong> 15 comida, 10 madeira
@@ -643,32 +673,6 @@
             recursos
           </div>
         </div>
-
-        <div id="modal-plunder" class="modal hidden">
-          <div class="modal-content">
-            <h3>⚔️ Arrasar e Saquear</h3>
-            <p>Escolha o resultado da ação:</p>
-            <button onclick="resolvePlunder(true)">Sucesso</button>
-            <button onclick="resolvePlunder(false)">Falha</button>
-          </div>
-        </div>
-
-        <div id="modal-attack" class="modal hidden">
-          <div class="modal-content">
-            <h3>🚨 A cidade/vila está sob ataque!</h3>
-            <p id="attack-event-text"></p>
-            <div id="attack-choice">
-              <button onclick="resolveHelp(true)">Ajudar</button>
-              <button onclick="resolveHelp(false)">Ignorar</button>
-            </div>
-            <div id="attack-outcome" class="hidden">
-              <p>Escolha o resultado:</p>
-              <button onclick="finishHelp(true)">Vitória</button>
-              <button onclick="finishHelp(false)">Derrota</button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
 
     <footer>
