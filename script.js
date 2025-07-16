@@ -2,7 +2,8 @@ const initialResources = {
   humanos: { ouro: 20, madeira: 20, comida: 20, construtor: 0 },
   undeads: { ouro: 20, ossos: 20, almas: 20, necromantes: 0 },
   anoes: { ouro: 20, pedra: 20, metal: 20, anoes: 0, comida: 20 },
-  elfos: { ouro: 20, mana: 20, madeira: 20, pixie: 0 }
+  elfos: { ouro: 20, mana: 20, madeira: 20, pixie: 0 },
+  orcs: { ouro: 20, madeira: 20, metal: 20,comida: 20, gonomo: 0 }
 };
 
 const buildingEffects = {
@@ -18,7 +19,7 @@ const buildingEffects = {
   },
   anoes: {
     "Mina": { trigger: "periodo", effect: "1d6 ouro" },
-    "Casa dos Metalúrgicos": { trigger: "dia", effect: "1d4 metal" },
+    "Casa dos Metalúrgicos": { trigger: "dia", effect: "1d6 metal" },
     "Fazenda de Cogumelos": { trigger: "noite", effect: "1d4 comida" },
     "Montanha Mãe": { trigger: "periodo", effect: "1d6 pedra" }
   },
@@ -26,7 +27,15 @@ const buildingEffects = {
     "Monolito da Natureza": { trigger: "periodo", effect: { dia: "1d4 madeira", noite: "1d4 ouro" }},
     "Templo da Lua": { trigger: "noite", effect: "1d4 mana" },
     "Fonte de Mana": { trigger: "noite", effect: "1d8 mana" },
-    "Gaia": { trigger: "periodo", effect: "1d4 mana" }
+    "Gaia": { trigger: "periodo", effect: "1d4 mana" },
+    "Observatorio da Natureza": { trigger: "noite", effect: "1d4 mana" }
+  },
+  orcs: {
+    "Assentamento do clã": { trigger: "dia", effect: "1d4 madeira" },
+    "Vilarejo orc": { trigger: "dia", effect: "1d8 comida" },
+    "Espoliador dos goblins": { trigger: "periodo", effect: { dia: "1d4 ouro", noite: "1d4 pedra" }},
+    "Siderurgica dos goblins": { trigger: "periodo", effect: "1d6 metal" },
+    "Torre militar dos ferreiros orcs": { trigger: "dia", effect: "1d6 madeira" }
   }
 };
 
@@ -35,7 +44,8 @@ const unitCosts = {
     construtor: { ouro: 2, comida: 2 },
     milicia: { ouro: 2, comida: 1 },
     cavaleiro: { ouro: 4, comida: 4 },
-    mago: { ouro: 6, comida: 4 }
+    mago: { ouro: 6, comida: 4 },
+    balestra: { ouro: 25, madeira: 20, construtor: 2 },
   },
   undeads: {
     necromantes: { ouro: 1, almas: 3 },
@@ -45,12 +55,23 @@ const unitCosts = {
   anoes: {
     anoes: { ouro: 3, comida: 3 },
     "infantaria anã": { ouro: 8, metal: 2 },
-    "mestre da forja": { ouro: 10, metal: 6 }
+    "mestre da forja": { ouro: 10, metal: 6 },
+    "canhão": { ouro: 20, metal: 10, pedra: 10, anoes: 1 }
   },
   elfos: {
     pixie: { ouro: 1, mana: 3 },
-    "infantaria élfica": { ouro: 6, mana: 10 },
-    "sacerdote mestre": { ouro: 8, mana: 15 }
+    "infantaria élfica": { ouro: 6, mana: 6 },
+    "sacerdote mestre": { ouro: 8, mana: 12 },
+    "elemental da natureza feerico": { madeira: 20, mana: 15 },
+    "Navio Lunar": { ouro: 20, mana: 10, madeira: 30, pixie: 5 }
+  },
+  orcs: {
+    gonomo: { ouro: 1, comida: 3 },
+    "guerreiro Orc": { ouro: 4, comida: 8 },
+    "arqueiro Orc": { ouro: 5, comida: 9 },
+    "Capitão de guerra": { ouro: 6, comida: 12 },
+    "goblins saqueadores": { ouro: 2, comida: 4 },
+    "Devorador de pedra": { ouro: 25, metal: 15, madeira: 15, gonomo: 5}
   }
 };
 
@@ -61,6 +82,7 @@ const unitProduction = {
     cavaleiro: { building: "Forte Militar", perDay: 2, current: 0 },
     mago: { building: "Torre dos Magos", perDay: 1, current: 0 },
     milicia: { building: "Capital", perDay: 2, current: 0 },
+    balestra: { building: "Casa dos Artesãos", perDay: 1, current: 0 },
     construtor: { building: "Capital", perDay: Infinity, current: 0 }
   },
   undeads: {
@@ -71,12 +93,23 @@ const unitProduction = {
   anoes: {
     "infantaria anã": { building: "Pináculo Militar", perDay: 2, current: 0 },
     "mestre da forja": { building: "Casa dos Metalúrgicos", perDay: 2, current: 0 },
+    "canhão": { building: "Casa dos Metalúrgicos", perDay: 1, current: 0 },
     anoes: { building: "Montanha Mãe", perDay: Infinity, current: 0 }
   },
   elfos: {
     "infantaria élfica": { building: "Monolito da Natureza", perDay: 3, current: 0 },
     "sacerdote mestre": { building: "Templo da Lua", perDay: 2, current: 0 },
+    "elemental da natureza feerico": { building: "Gaia", perDay: 1, current: 0 },
+    "Navio Lunar": { building: "Templo da Lua", perDay: 1, current: 0 },
     pixie: { building: "Gaia", perDay: Infinity, current: 0 }
+  },
+  orcs: {
+    "guerreiro orc": { building: "Torre militar dos ferreiros orcs", perDay: 3, current: 0 },
+    "arqueiro orc": { building: "Torre militar dos ferreiros orcs", perDay: 3, current: 0 },
+    "capitão de guerra": { building: "Torre militar dos ferreiros orcs", perDay: 2, current: 0 },
+    "goblins saqueadores": { building: "Espoliador dos goblins", perDay: Infinity, current: 0 },
+    "Devorador de pedra": { building: "Siderurgica dos goblins", perDay: 2, current: 0 },
+    gonomo: { building: "Assentamento do clã", perDay: Infinity, current: 0 }
   }
 };
 
@@ -112,7 +145,14 @@ const buildingCosts = {
     "Árvore da Terra": { ouro: 10, madeira: 10, mana: 10, pixie: 6 },
     "Fonte de Mana": { ouro: 8, mana: 4, pixie: 5 },
     "Gaia": { ouro: 20, madeira: 20, mana: 20, pixie: 10 },
-    "Navio Lunar": { ouro: 30, mana: 10, madeira: 45, pixie: 5 }
+    "Observatorio da Natureza": { ouro: 15, madeira: 15, mana: 5, pixie: 4 },
+  },
+  orcs: {
+    "Assentamento do clã": { ouro: 12, madeira: 12, metal: 6, gonomo: 5 },
+    "Espoliador dos goblins": { ouro: 6, metal: 3, gonomo: 4 },
+    "Torre militar dos ferreiros orcs": { ouro: 10, madeira: 12, metal: 6, gonomo: 4 },
+    "Vilarejo orc": { ouro: 5, metal: 2, gonomo: 5 },
+    "Siderurgica dos goblins": { ouro: 8, madeira: 8, metal: 10, gonomo: 4 },    
   }
 };
 
@@ -120,7 +160,8 @@ const militaryBuildings = {
   humanos: ["Forte Militar", "Torre dos Magos", "Capital"],
   undeads: ["Catacumba Assombrada", "Torre Maligna"],
   anoes: ["Pináculo Militar", "Casa dos Metalúrgicos"],
-  elfos: ["Infantaria élfica", "Sacerdote Mestre"]
+  elfos: ["Árvore da Terra", "Templo da Lua"],
+  orcs: ["Torre militar dos ferreiros orcs", "Espoliador dos goblins", "Siderurgica dos goblins"]
 };
 
 let currentRace = null;
@@ -161,6 +202,7 @@ function getCapitalName() {
     case 'undeads': return 'Capital Negra';
     case 'anoes': return 'Montanha Mãe';
     case 'elfos': return 'Gaia';
+    case 'orcs': return 'Assentamento do clã';
     default: return 'Capital';
   }
 }
@@ -171,6 +213,7 @@ function getInitialUnit() {
     case 'undeads': return 'necromantes';
     case 'anoes': return 'anoes';
     case 'elfos': return 'pixie';
+    case 'orcs': return 'gonomo';
     default: return '';
   }
 }
