@@ -20,8 +20,7 @@
           <button class="tab-button active" onclick="openTab('management')">Gestão</button>
           <button class="tab-button" onclick="openTab('races')">Raças</button>
           <button class="tab-button" onclick="openTab('exploration')">Exploração</button>
-          <button class="tab-button" onclick="openTab('pilhagem')">Pilhagem</button>
-          <button class="tab-button" onclick="openTab('markets')">Mercados</button>
+          <button class="tab-button" onclick="openTab('utils')">Utilitários</button>
         </div>
       </div>
     </header>
@@ -410,6 +409,106 @@
               </ul>
             </div>
           </div>
+
+          <!-- Orcs -->
+          <div class="race-card">
+            <h2>👹 Orcs</h2>
+            <div class="section-title">🏢 Construções</div>
+
+            <div class="building">
+              <div class="building-title">🔹 Espoliador dos Goblins</div>
+              Gera 1d4 ouro p/ dia e 1d4 pedra p/ noite.<br /><small
+                >Custo: 4 gnomo + 6 ouro + 3 metal | Vida: 1 |
+                Ataque: 1 p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🌑 Templo da Lua</div>
+              Gera 1d4 mana p/ noite.<br /><small
+                >Custo: 4 gnomo + 8 ouro + 5 mana | Vida: 2 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">✨ Sacerdote Mestre</div>
+              Cria 1 tropa a cada 3 unidades. {2 p/ dia}<br /><small
+                >Custo: 4 gnomo + 8 ouro + 5 mana | Vida: 2 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🌳 Árvore da Terra</div>
+              Transforma o terreno em floresta. +2 em recursos.<br /><small
+                >Custo: Especial</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">💪 Infantaria élfica</div>
+              Cria 1 tropa a cada 5 unidades. {3 p/ noite}<br /><small
+                >Custo: 6 gnomo + 6 ouro + 10 mana | Vida: 5 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">✨ Fonte de Mana</div>
+              Gera 1d8 mana p/ noite.<br /><small
+                >Custo: 5 gnomo + 8 ouro + 4 mana | Vida: 1 | Ataque: 1
+                p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">✨ Observatório Arcano</div>
+              Gera 1d4 mana p/ noite. E pode observar qualquer território do mapa uma vez por noite<br /><small>
+            </div>
+            <div class="building">
+              <div class="building-title">🏰 Gaia 🏰</div>
+              Base central dos elfos.<br /><small
+                >Somente 1 | Vida: 5 | Ataque: 1 p/dia</small
+              >
+            </div>
+            <div class="building">
+              <div class="building-title">🌸 Pixie</div>
+              1 ouro + 3 mana. {Infinito p/ dia}<br /><small
+                >Custo: Especial | Vida: 5 | Ataque: 1 p/dia</small
+              >
+            </div>
+
+            <div class="section-title">🛡️ Tropas</div>
+            <div class="troop">
+              <div class="troop-title">💪 Infantaria élfica</div>
+              5 vidas | ATK 1d6+1 | Loc.: 1 noite | Rec: 4 mana + 1 noite<br />Conhecidos:
+              pula 1 território p/ noite
+            </div>
+            <div class="troop">
+              <div class="troop-title">✨ Elemental da Natureza Feerico</div>
+              20 vidas | ATK 1d4+1 | Loc.: 1 noite | Rec: não possui<br />
+            </div>
+            <div class="troop">
+              <div class="troop-title">✨ Sacerdote Mestre</div>
+              3 vidas | ATK 1d6+3 | Loc.: 1 noite | Rec: 15 mana + 1 noite<br />Aliados
+              ao redor +2 ATK e +1 Recovery
+            </div>
+            <div class="troop">
+              <div class="troop-title">✨ Navio Lunar</div>
+              6 vidas | ATK 1d6 | Loc.: 1 noite | Rec: 15 mana + 1 noite<br />
+            </div>
+
+            <div class="section-title">📌 Regras</div>
+            <div class="notes">
+              <ul>
+                <li>Benção: +3 / Maldição: -2 rolagens</li>
+                <li>Sagrados: +2 / Amaldiçoados: -2 rolagens</li>
+                <li>Neutros: mantêm-se neutros</li>
+                <li>Apenas constroem em terrenos com floresta</li>
+                <li>Navios lunares só se movimentam pela noite e podem atacar tropas em costas assim como carregar até duas tropas para viagem</li>
+                <li>
+                  1 tropa de Sacerdotes pode teleportar tropas adjacentes para
+                  Gaia<br /><small>Custo: 35 ouro + 15 mana</small>
+                </li>
+              </ul>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -526,10 +625,9 @@
       </div>
     </div>
 
-    <!-- Tab 4: Mercados -->
-    <div id="markets" class="tab-content">
-      <!-- Tabela de Mercado de Vilas -->
-        <div class="section">
+    <!-- Tab 5: utils -->
+    <div class="tab-content" id="utils">
+<div class="section">
           <div class="section-title">🛒 Tabela de Mercado - Vila</div>
           <div class="table-entry">
             <strong>1</strong> 10 comidas e 5 madeiras — 18 ouro
@@ -643,10 +741,7 @@
             lista por 70 ouro
           </div>
         </div>
-    </div>
 
-    <!-- Tab 5: Pilhagem -->
-    <div class="tab-content" id="pilhagem">
       <div class="section">
           <div class="section-title">🏚️ Tabela de Pilhagem - Vila (1d8)</div>
           <div class="table-entry">
